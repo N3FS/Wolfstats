@@ -1,0 +1,3 @@
+rootProject.name = 'wolfstats'
+
+include 'wolfstats-common', 'wolfstats-paper', 'wolfstats-velocity'

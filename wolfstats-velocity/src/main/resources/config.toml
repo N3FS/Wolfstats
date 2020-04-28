@@ -1,0 +1,12 @@
+[daemon]
+url = "localhost"
+port = "8125"
+prefix = "mc"
+
+[metrics]
+server-name = "proxy"
+
+
+[events]
+send-start-event = true
+send-shutdown-event = true

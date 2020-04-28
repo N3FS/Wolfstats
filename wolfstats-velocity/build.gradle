@@ -1,0 +1,29 @@
+repositories {
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+    maven {
+        name = 'paper'
+        url = 'https://papermc.io/repo/repository/maven-public/'
+    }
+    maven {
+        name = 'velocity'
+        url = 'https://repo.velocitypowered.com/snapshots/'
+    }
+}
+
+dependencies {
+    compile project(':wolfstats-common')
+    compileOnly 'com.velocitypowered:velocity-api:1.0.8-SNAPSHOT'
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        expand 'version': project.version
+    }
+}
+
+shadowJar {
+    relocate 'com.timgroup.statsd', 'uk.co.n3fs.mc.wolfstats.libs.dogstatsd'
+}
