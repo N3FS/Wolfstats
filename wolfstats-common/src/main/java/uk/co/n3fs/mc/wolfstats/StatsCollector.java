@@ -24,6 +24,7 @@ package uk.co.n3fs.mc.wolfstats;
 
 import com.timgroup.statsd.StatsDClient;
 import uk.co.n3fs.mc.wolfstats.platform.Server;
+import uk.co.n3fs.mc.wolfstats.platform.TickSampler;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
@@ -33,10 +34,12 @@ public class StatsCollector {
 
     private final StatsDClient statsd;
     private final Server server;
+    private final TickSampler tickSampler;
 
     public StatsCollector(WolfstatsPlugin plugin) {
         this.statsd = plugin.getStatsd();
         this.server = plugin.getServer();
+        this.tickSampler = plugin.getTickSampler().orElse(null);
     }
 
     void run() {
@@ -57,6 +60,15 @@ public class StatsCollector {
         MemoryUsage nonHeapUsage = memoryBean.getNonHeapMemoryUsage();
         statsd.gauge("non-heap.used", nonHeapUsage.getUsed());
         statsd.gauge("non-heap.max", nonHeapUsage.getMax());
+
+        if (tickSampler != null) {
+            tickSampler.getAverageTickLength().ifPresent(length -> {
+                statsd.gauge("ticks.avg-length", length);
+                statsd.gauge("ticks.per-second", Math.min(1000 / length, 20));
+            });
+
+            tickSampler.getAverageTickSleep().ifPresent(sleep -> statsd.gauge("ticks.avg-sleep", sleep));
+        }
     }
 
 }

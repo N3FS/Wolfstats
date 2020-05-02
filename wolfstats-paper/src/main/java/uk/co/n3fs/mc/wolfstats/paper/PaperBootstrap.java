@@ -24,16 +24,16 @@ package uk.co.n3fs.mc.wolfstats.paper;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.co.n3fs.mc.wolfstats.WolfstatsPlugin;
-import uk.co.n3fs.mc.wolfstats.platform.Bootstrap;
-import uk.co.n3fs.mc.wolfstats.platform.Config;
-import uk.co.n3fs.mc.wolfstats.platform.Scheduler;
-import uk.co.n3fs.mc.wolfstats.platform.Server;
+import uk.co.n3fs.mc.wolfstats.platform.*;
+
+import java.util.Optional;
 
 public final class PaperBootstrap extends JavaPlugin implements Bootstrap {
 
     private PaperServer server;
     private YamlConfig config;
     private PaperScheduler scheduler;
+    private PaperTickSampler sampler;
     private WolfstatsPlugin plugin;
 
     @Override
@@ -41,6 +41,7 @@ public final class PaperBootstrap extends JavaPlugin implements Bootstrap {
         server = new PaperServer();
         config = new YamlConfig(getDataFolder().toPath());
         scheduler = new PaperScheduler(this);
+        sampler = new PaperTickSampler();
         plugin = new WolfstatsPlugin(this);
     }
 
@@ -62,5 +63,10 @@ public final class PaperBootstrap extends JavaPlugin implements Bootstrap {
     @Override
     public Scheduler getSchedulerWrapper() {
         return scheduler;
+    }
+
+    @Override
+    public Optional<TickSampler> getTickSampler() {
+        return Optional.of(sampler);
     }
 }

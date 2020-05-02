@@ -26,8 +26,6 @@ import java.util.Optional;
 
 public interface Server {
 
-    Optional<TickSampler> getTickSampler();
-
     int getCurrentPlayers();
 
     Optional<Integer> getMaxPlayers();

@@ -31,12 +31,10 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import uk.co.n3fs.mc.wolfstats.WolfstatsPlugin;
-import uk.co.n3fs.mc.wolfstats.platform.Bootstrap;
-import uk.co.n3fs.mc.wolfstats.platform.Scheduler;
-import uk.co.n3fs.mc.wolfstats.platform.Server;
-import uk.co.n3fs.mc.wolfstats.platform.Config;
+import uk.co.n3fs.mc.wolfstats.platform.*;
 
 import java.nio.file.Path;
+import java.util.Optional;
 
 @Plugin(
         id = "wolfstats",
@@ -95,6 +93,11 @@ public final class VelocityBootstrap implements Bootstrap {
     @Override
     public Scheduler getSchedulerWrapper() {
         return scheduler;
+    }
+
+    @Override
+    public Optional<TickSampler> getTickSampler() {
+        return Optional.empty();
     }
 
 }

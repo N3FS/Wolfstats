@@ -22,30 +22,23 @@
 
 package uk.co.n3fs.mc.wolfstats.paper;
 
-import org.bukkit.Bukkit;
-import uk.co.n3fs.mc.wolfstats.platform.Server;
+import com.destroystokyo.paper.event.server.ServerTickEndEvent;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import uk.co.n3fs.mc.wolfstats.platform.AbstractTickSampler;
 
-import java.util.Optional;
+public class PaperTickSampler extends AbstractTickSampler implements Listener {
 
-public class PaperServer implements Server {
-
-    @Override
-    public int getCurrentPlayers() {
-        return Bukkit.getOnlinePlayers().size();
+    @EventHandler
+    public void onTickEnd(ServerTickEndEvent event) {
+        sampleLength(event.getTickDuration());
+        //noinspection IntegerDivisionInFloatingPointContext
+        sampleSleep(event.getTimeRemaining() / 1000000);
     }
 
     @Override
-    public Optional<Integer> getMaxPlayers() {
-        return Optional.of(Bukkit.getMaxPlayers());
-    }
-
-    @Override
-    public Optional<Integer> getKnownPlayers() {
-        return Optional.of(Bukkit.getOfflinePlayers().length);
-    }
-
-    @Override
-    public ServerType getType() {
-        return ServerType.SERVER;
+    public void shutdown() {
+        HandlerList.unregisterAll(this);
     }
 }

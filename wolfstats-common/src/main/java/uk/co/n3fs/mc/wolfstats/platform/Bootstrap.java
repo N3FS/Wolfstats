@@ -22,6 +22,8 @@
 
 package uk.co.n3fs.mc.wolfstats.platform;
 
+import java.util.Optional;
+
 public interface Bootstrap {
 
     Server getServerWrapper();
@@ -29,5 +31,7 @@ public interface Bootstrap {
     Config getPluginConfig();
 
     Scheduler getSchedulerWrapper();
+
+    Optional<TickSampler> getTickSampler();
 
 }

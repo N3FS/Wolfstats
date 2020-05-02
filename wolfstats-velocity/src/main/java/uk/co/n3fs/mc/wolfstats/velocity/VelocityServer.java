@@ -24,7 +24,6 @@ package uk.co.n3fs.mc.wolfstats.velocity;
 
 import com.velocitypowered.api.proxy.ProxyServer;
 import uk.co.n3fs.mc.wolfstats.platform.Server;
-import uk.co.n3fs.mc.wolfstats.platform.TickSampler;
 
 import java.util.Optional;
 
@@ -34,11 +33,6 @@ public class VelocityServer implements Server {
 
     public VelocityServer(ProxyServer proxy) {
         this.proxy = proxy;
-    }
-
-    @Override
-    public Optional<TickSampler> getTickSampler() {
-        return Optional.empty();
     }
 
     @Override

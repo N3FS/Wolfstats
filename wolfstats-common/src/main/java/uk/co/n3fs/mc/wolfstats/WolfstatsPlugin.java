@@ -25,10 +25,9 @@ package uk.co.n3fs.mc.wolfstats;
 import com.timgroup.statsd.Event;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
-import uk.co.n3fs.mc.wolfstats.platform.Bootstrap;
-import uk.co.n3fs.mc.wolfstats.platform.Config;
-import uk.co.n3fs.mc.wolfstats.platform.Scheduler;
-import uk.co.n3fs.mc.wolfstats.platform.Server;
+import uk.co.n3fs.mc.wolfstats.platform.*;
+
+import java.util.Optional;
 
 public class WolfstatsPlugin {
 
@@ -100,6 +99,10 @@ public class WolfstatsPlugin {
 
     public Scheduler getScheduler() {
         return bootstrap.getSchedulerWrapper();
+    }
+
+    public Optional<TickSampler> getTickSampler() {
+        return bootstrap.getTickSampler();
     }
 
     public StatsDClient getStatsd() {

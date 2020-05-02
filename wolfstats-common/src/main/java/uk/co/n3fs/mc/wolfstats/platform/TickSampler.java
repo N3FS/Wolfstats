@@ -22,6 +22,14 @@
 
 package uk.co.n3fs.mc.wolfstats.platform;
 
-// TODO: this
+import java.util.Optional;
+
 public interface TickSampler {
+
+    Optional<Double> getAverageTickLength();
+
+    Optional<Double> getAverageTickSleep();
+
+    void shutdown();
+
 }
