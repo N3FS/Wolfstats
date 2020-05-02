@@ -24,10 +24,28 @@ package uk.co.n3fs.mc.wolfstats.platform;
 
 public interface Scheduler {
 
-    void scheduleRepeatingTask(String identifier, Runnable runnable, long repeatMs);
+    /**
+     * Schedules a repeating task.
+     *
+     * @param name The name of the task to run
+     * @param runnable The task to run
+     * @param repeatMs The interval between executions of the task, in milliseconds
+     * @throws IllegalStateException if a task with the given name already exists
+     */
+    void scheduleRepeatingTask(String name, Runnable runnable, long repeatMs);
 
-    void cancelTask(String identifier);
+    /**
+     * Cancels a pending task, interrupting the task if it is currently running.
+     * If no task with this name exists or the task already terminated, this method will silently fail.
+     *
+     * @param name The name of the task to cancel
+     */
+    void cancelTask(String name);
 
+    /**
+     * Cancels all pending tasks, interrupting any currently-running tasks.
+     * This method will also shut down the executor thread if necessary.
+     */
     void shutdown();
 
 }

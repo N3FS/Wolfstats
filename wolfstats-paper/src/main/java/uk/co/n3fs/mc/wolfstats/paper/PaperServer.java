@@ -20,38 +20,39 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package uk.co.n3fs.mc.wolfstats;
+package uk.co.n3fs.mc.wolfstats.paper;
 
-import org.bukkit.plugin.java.JavaPlugin;
-import uk.co.n3fs.mc.wolfstats.platform.Bootstrap;
-import uk.co.n3fs.mc.wolfstats.platform.Config;
-import uk.co.n3fs.mc.wolfstats.platform.Scheduler;
+import org.bukkit.Bukkit;
 import uk.co.n3fs.mc.wolfstats.platform.Server;
+import uk.co.n3fs.mc.wolfstats.platform.TickSampler;
 
-public final class PaperBootstrap extends JavaPlugin implements Bootstrap {
+import java.util.Optional;
+
+public class PaperServer implements Server {
 
     @Override
-    public void onEnable() {
-
+    public Optional<TickSampler> getTickSampler() {
+        // TODO: implement
+        return Optional.empty();
     }
 
     @Override
-    public void onDisable() {
-
+    public int getCurrentPlayers() {
+        return Bukkit.getOnlinePlayers().size();
     }
 
     @Override
-    public Server getServerWrapper() {
-        return null;
+    public Optional<Integer> getMaxPlayers() {
+        return Optional.of(Bukkit.getMaxPlayers());
     }
 
     @Override
-    public Config getPluginConfig() {
-        return null;
+    public Optional<Integer> getKnownPlayers() {
+        return Optional.of(Bukkit.getOfflinePlayers().length);
     }
 
     @Override
-    public Scheduler getSchedulerWrapper() {
-        return null;
+    public ServerType getType() {
+        return ServerType.SERVER;
     }
 }

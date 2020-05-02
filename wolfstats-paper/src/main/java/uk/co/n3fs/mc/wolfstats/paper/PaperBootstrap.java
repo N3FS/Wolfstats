@@ -20,24 +20,47 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package uk.co.n3fs.mc.wolfstats.platform;
+package uk.co.n3fs.mc.wolfstats.paper;
 
-public interface Config {
+import org.bukkit.plugin.java.JavaPlugin;
+import uk.co.n3fs.mc.wolfstats.WolfstatsPlugin;
+import uk.co.n3fs.mc.wolfstats.platform.Bootstrap;
+import uk.co.n3fs.mc.wolfstats.platform.Config;
+import uk.co.n3fs.mc.wolfstats.platform.Scheduler;
+import uk.co.n3fs.mc.wolfstats.platform.Server;
 
-    boolean enabled();
+public final class PaperBootstrap extends JavaPlugin implements Bootstrap {
 
-    String getServerTag();
+    private PaperServer server;
+    private YamlConfig config;
+    private PaperScheduler scheduler;
+    private WolfstatsPlugin plugin;
 
-    String getDaemonUrl();
+    @Override
+    public void onEnable() {
+        server = new PaperServer();
+        config = new YamlConfig(getDataFolder().toPath());
+        scheduler = new PaperScheduler(this);
+        plugin = new WolfstatsPlugin(this);
+    }
 
-    int getDaemonPort();
+    @Override
+    public void onDisable() {
+        plugin.disable();
+    }
 
-    String getPrefix();
+    @Override
+    public Server getServerWrapper() {
+        return server;
+    }
 
-    boolean sendStartEvent();
+    @Override
+    public Config getPluginConfig() {
+        return config;
+    }
 
-    boolean sendShutdownEvent();
-
-    long getReportingInterval();
-
+    @Override
+    public Scheduler getSchedulerWrapper() {
+        return scheduler;
+    }
 }

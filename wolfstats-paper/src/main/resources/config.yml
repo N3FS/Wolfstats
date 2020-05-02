@@ -1,0 +1,34 @@
+# This is the config for Wolfstats.
+# You need to edit this config and enable the plugin before it will function.
+
+plugin:
+  # Whether the plugin is enabled or not. Default: false (change this!)
+  enabled: false
+
+  # The name of this server instance. (Default: "server")
+  # Change this if you use a multi-server setup.
+  server-name: "server"
+
+daemon:
+  # The IP address or hostname of the running DogStatsD instance. (Default: "localhost")
+  url: "localhost"
+
+  # The port of the running DogStatsD instance. (Default: 8125)
+  port: 8125
+
+metrics:
+  # The interval between sending metrics reports to DataDog, in seconds. (Default: 20 seconds)
+  # This shouldn't be too high or you may incur extra costs.
+  reporting-interval: 20.0
+
+  # The prefix to prepend before the name of each metric. (Default: "mc")
+  # This should be the same across all servers/proxies in your network (if applicable).
+  # Don't change this unless you have a specific reason to.
+  prefix: "mc"
+
+events:
+  # Whether or not to log an event on DataDog when this proxy starts up. (Default: true)
+  send-start-event: true
+
+  # Whether or not to log an event on DataDog when this proxy shuts down. (Default: true)
+  send-shutdown-event: true

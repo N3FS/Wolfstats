@@ -1,6 +1,6 @@
 name: Wolfstats
 version: @version@
-main: uk.co.n3fs.mc.wolfstats.PaperBootstrap
-api-version: 1.13
+main: uk.co.n3fs.mc.wolfstats.paper.PaperBootstrap
+api-version: "1.13"
 authors: [md678685]
 description: Feeds server performance statistics to Datadog

@@ -20,27 +20,26 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package uk.co.n3fs.mc.wolfstats.velocity;
+package uk.co.n3fs.mc.wolfstats.paper;
 
-import com.google.common.collect.MapMaker;
-import com.velocitypowered.api.proxy.ProxyServer;
-import com.velocitypowered.api.scheduler.ScheduledTask;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import uk.co.n3fs.mc.wolfstats.platform.Scheduler;
 
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
+import java.util.concurrent.*;
 
-public class VelocityScheduler implements Scheduler {
-    private final VelocityBootstrap plugin;
-    private final ProxyServer proxy;
+public class PaperScheduler implements Scheduler {
 
-    private final ConcurrentMap<String, ScheduledTask> tasks = new MapMaker()
-            .weakValues()
-            .makeMap();
+    private final PaperBootstrap plugin;
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor(new ThreadFactoryBuilder()
+            .setNameFormat("wolfstats-paper-scheduler")
+            .setDaemon(true)
+            .build()
+    );
+    private final Map<String, ScheduledFuture<?>> tasks = new ConcurrentHashMap<>();
 
-    public VelocityScheduler(VelocityBootstrap plugin, ProxyServer proxy) {
+    public PaperScheduler(PaperBootstrap plugin) {
         this.plugin = plugin;
-        this.proxy = proxy;
     }
 
     @Override
@@ -49,25 +48,22 @@ public class VelocityScheduler implements Scheduler {
             throw new IllegalStateException("Can't create a task with the identifier of an existing task! Identifier: " + name);
         }
 
-        ScheduledTask task = proxy.getScheduler().buildTask(plugin, runnable)
-                .repeat(repeatMs, TimeUnit.MILLISECONDS)
-                .schedule();
-
+        ScheduledFuture<?> task = scheduler.scheduleAtFixedRate(runnable, 0, repeatMs, TimeUnit.MILLISECONDS);
         tasks.put(name, task);
     }
 
     @Override
     public void cancelTask(String name) {
-        ScheduledTask task = tasks.get(name);
+        ScheduledFuture<?> task = tasks.get(name);
         if (task != null) {
-            task.cancel();
+            task.cancel(true);
             tasks.remove(name);
         }
     }
 
     @Override
     public void shutdown() {
-        tasks.forEach((identifier, task) -> task.cancel());
+        scheduler.shutdown();
         tasks.clear();
     }
 }

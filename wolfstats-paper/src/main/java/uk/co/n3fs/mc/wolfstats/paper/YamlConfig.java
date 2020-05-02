@@ -20,62 +20,62 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package uk.co.n3fs.mc.wolfstats.velocity;
+package uk.co.n3fs.mc.wolfstats.paper;
 
-import com.moandjiezana.toml.Toml;
+import org.bukkit.configuration.file.YamlConfiguration;
 import uk.co.n3fs.mc.wolfstats.platform.Config;
 import uk.co.n3fs.mc.wolfstats.utils.Files;
 
 import java.nio.file.Path;
 
-public class TomlConfig implements Config {
+public class YamlConfig implements Config {
 
-    private static final String RESOURCE_NAME = "config.toml";
+    private static final String RESOURCE_NAME = "config.yml";
 
-    private final Toml toml;
+    private final YamlConfiguration yaml;
 
-    TomlConfig(Path dir) {
+    YamlConfig(Path dir) {
         Files.copyDefault(dir, RESOURCE_NAME);
-        toml = new Toml().read(dir.resolve(RESOURCE_NAME).toFile());
+        yaml = YamlConfiguration.loadConfiguration(dir.resolve(RESOURCE_NAME).toFile());
     }
 
     @Override
     public boolean enabled() {
-        return toml.getBoolean("plugin.enabled", false);
+        return yaml.getBoolean("plugin.enabled", false);
     }
 
     @Override
     public String getServerTag() {
-        return toml.getString("plugin.server-name", "unknown");
+        return yaml.getString("plugin.server-name", "server");
     }
 
     @Override
     public String getDaemonUrl() {
-        return toml.getString("daemon.url", "localhost");
+        return yaml.getString("daemon.url", "localhost");
     }
 
     @Override
     public int getDaemonPort() {
-        return Math.toIntExact(toml.getLong("daemon.port", 8125L));
-    }
-
-    @Override
-    public String getPrefix() {
-        return toml.getString("metrics.prefix", "mc");
-    }
-
-    @Override
-    public boolean sendStartEvent() {
-        return toml.getBoolean("events.send-start-event", true);
-    }
-
-    @Override
-    public boolean sendShutdownEvent() {
-        return toml.getBoolean("events.send-shutdown-event", true);
+        return yaml.getInt("daemon.port", 8125);
     }
 
     @Override
     public long getReportingInterval() {
-        return Math.round(toml.getDouble("metrics.reporting-interval", 20.0) * 1000);
+        return Math.round(yaml.getDouble("metrics.reporting-interval", 20.0) * 1000);
+    }
+
+    @Override
+    public String getPrefix() {
+        return yaml.getString("metrics.prefix", "mc");
+    }
+
+    @Override
+    public boolean sendStartEvent() {
+        return yaml.getBoolean("events.send-start-event", true);
+    }
+
+    @Override
+    public boolean sendShutdownEvent() {
+        return yaml.getBoolean("events.send-shutdown-event", true);
     }
 }
