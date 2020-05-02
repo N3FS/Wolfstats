@@ -46,6 +46,7 @@ import java.util.Optional;
 public final class VelocityBootstrap implements Bootstrap {
 
     private final VelocityServer server;
+    private final ProxyServer proxy;
     private final Path pluginDir;
 
     private TomlConfig config;
@@ -54,6 +55,7 @@ public final class VelocityBootstrap implements Bootstrap {
 
     @Inject
     public VelocityBootstrap(ProxyServer proxy, @DataDirectory Path pluginDir) {
+        this.proxy = proxy;
         this.pluginDir = pluginDir;
 
         server = new VelocityServer(proxy);
@@ -70,8 +72,12 @@ public final class VelocityBootstrap implements Bootstrap {
     @Subscribe
     public void onProxyReload(ProxyReloadEvent event) {
         plugin.disable();
+        scheduler.shutdown();
+
+        scheduler = new VelocityScheduler(this, proxy);
         config = new TomlConfig(pluginDir);
         plugin = new WolfstatsPlugin(this);
+
         plugin.enable();
     }
 

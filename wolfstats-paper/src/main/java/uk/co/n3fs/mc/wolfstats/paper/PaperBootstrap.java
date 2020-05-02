@@ -49,6 +49,8 @@ public final class PaperBootstrap extends JavaPlugin implements Bootstrap {
 
     @Override
     public void onDisable() {
+        sampler.shutdown();
+        scheduler.shutdown();
         plugin.disable();
     }
 
