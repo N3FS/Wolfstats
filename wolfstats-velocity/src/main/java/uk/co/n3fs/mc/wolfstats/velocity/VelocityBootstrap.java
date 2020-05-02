@@ -70,10 +70,12 @@ public final class VelocityBootstrap implements Bootstrap {
     @Subscribe
     public void onProxyStart(ProxyInitializeEvent event) {
         plugin.enable();
+        plugin.onServerStartup();
     }
 
     @Subscribe
     public void onProxyReload(ProxyReloadEvent event) {
+        plugin.onServerReload();
         plugin.disable();
         scheduler.shutdown();
 
@@ -86,6 +88,7 @@ public final class VelocityBootstrap implements Bootstrap {
 
     @Subscribe
     public void onProxyShutdown(ProxyShutdownEvent event) {
+        plugin.onServerShutdown();
         plugin.disable();
     }
 

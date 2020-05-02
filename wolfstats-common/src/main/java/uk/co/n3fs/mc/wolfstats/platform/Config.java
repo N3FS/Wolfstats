@@ -36,6 +36,8 @@ public interface Config {
 
     boolean sendStartEvent();
 
+    boolean sendReloadEvent();
+
     boolean sendShutdownEvent();
 
     long getReportingInterval();

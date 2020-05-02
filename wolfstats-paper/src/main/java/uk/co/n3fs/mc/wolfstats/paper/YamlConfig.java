@@ -75,6 +75,11 @@ public class YamlConfig implements Config {
     }
 
     @Override
+    public boolean sendReloadEvent() {
+        return yaml.getBoolean("events.send-reload-event", true);
+    }
+
+    @Override
     public boolean sendShutdownEvent() {
         return yaml.getBoolean("events.send-shutdown-event", true);
     }

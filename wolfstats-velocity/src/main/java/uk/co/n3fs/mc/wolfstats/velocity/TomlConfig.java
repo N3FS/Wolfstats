@@ -70,6 +70,11 @@ public class TomlConfig implements Config {
     }
 
     @Override
+    public boolean sendReloadEvent() {
+        return toml.getBoolean("events.send-reload-event", true);
+    }
+
+    @Override
     public boolean sendShutdownEvent() {
         return toml.getBoolean("events.send-shutdown-event", true);
     }

@@ -22,6 +22,7 @@
 
 package uk.co.n3fs.mc.wolfstats.paper;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.slf4j.Logger;
 import uk.co.n3fs.mc.wolfstats.WolfstatsPlugin;
@@ -46,10 +47,18 @@ public final class PaperBootstrap extends JavaPlugin implements Bootstrap {
         plugin = new WolfstatsPlugin(this);
 
         getServer().getPluginManager().registerEvents(sampler, this);
+        plugin.enable();
+        plugin.onServerStartup();
     }
 
     @Override
     public void onDisable() {
+        if (Bukkit.isStopping()) {
+            plugin.onServerShutdown();
+        } else {
+            plugin.onServerReload();
+        }
+
         sampler.shutdown();
         scheduler.shutdown();
         plugin.disable();

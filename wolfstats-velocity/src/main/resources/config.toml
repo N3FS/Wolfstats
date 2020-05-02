@@ -27,8 +27,11 @@ reporting-interval = 20.0
 prefix = "mc"
 
 [events]
-# Whether or not to log an event on DataDog when this server starts up. (Default: true)
+# Whether or not to log an event on DataDog when this proxy starts up. (Default: true)
 send-start-event = true
 
-# Whether or not to log an event on DataDog when this server shuts down. (Default: true)
+# Whether or not to log an event on DataDog when the plugin reloads. (Default: true)
+send-reload-event = true
+
+# Whether or not to log an event on DataDog when this proxy shuts down. (Default: true)
 send-shutdown-event = true

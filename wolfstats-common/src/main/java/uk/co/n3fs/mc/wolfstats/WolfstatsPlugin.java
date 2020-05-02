@@ -65,10 +65,19 @@ public class WolfstatsPlugin {
         }
 
         getScheduler().scheduleRepeatingTask(STATS_TASK_ID, statsTask::run, getConfig().getReportingInterval());
+    }
 
+    public void disable() {
+        getScheduler().cancelTask(STATS_TASK_ID);
+
+        statsd.stop();
+    }
+
+    public void onServerStartup() {
         if (getConfig().sendStartEvent()) {
             Event event = Event.builder()
                     .withTitle("Minecraft " + getServerType() + " '" + getConfig().getServerTag() + "' started up.")
+                    .withText("This may be either the result of a full restart or a " + getServerType() + " reload.")
                     .withAlertType(Event.AlertType.INFO)
                     .build();
 
@@ -76,19 +85,28 @@ public class WolfstatsPlugin {
         }
     }
 
-    public void disable() {
-        getScheduler().cancelTask(STATS_TASK_ID);
-
-        if (getConfig().sendShutdownEvent()) {
+    public void onServerReload() {
+        if (getConfig().sendReloadEvent()) {
             Event event = Event.builder()
-                    .withTitle("Minecraft " + getServerType() + " '" + getConfig().getServerTag() + "' shutting down.")
+                    .withTitle("Minecraft " + getServerType() + " '" + getConfig().getServerTag() + "' reloading.")
+                    .withText("This is a result of either a plugin reload or " + getServerType() + " reload.")
                     .withAlertType(Event.AlertType.INFO)
                     .build();
 
             statsd.recordEvent(event);
         }
+    }
 
-        statsd.stop();
+    public void onServerShutdown() {
+        if (getConfig().sendShutdownEvent()) {
+            Event event = Event.builder()
+                    .withTitle("Minecraft " + getServerType() + " '" + getConfig().getServerTag() + "' shutting down.")
+                    .withText("This may be either the result of a full restart or a " + getServerType() + " reload.")
+                    .withAlertType(Event.AlertType.INFO)
+                    .build();
+
+            statsd.recordEvent(event);
+        }
     }
 
     private String getServerType() {
