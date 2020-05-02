@@ -74,6 +74,8 @@ public class WolfstatsPlugin {
     }
 
     public void onServerStartup() {
+        if (!getConfig().enabled()) return;
+
         if (getConfig().sendStartEvent()) {
             Event event = Event.builder()
                     .withTitle("Minecraft " + getServerType() + " '" + getConfig().getServerTag() + "' started up.")
@@ -86,6 +88,8 @@ public class WolfstatsPlugin {
     }
 
     public void onServerReload() {
+        if (!getConfig().enabled()) return;
+
         if (getConfig().sendReloadEvent()) {
             Event event = Event.builder()
                     .withTitle("Minecraft " + getServerType() + " '" + getConfig().getServerTag() + "' reloading.")
@@ -98,6 +102,8 @@ public class WolfstatsPlugin {
     }
 
     public void onServerShutdown() {
+        if (!getConfig().enabled()) return;
+
         if (getConfig().sendShutdownEvent()) {
             Event event = Event.builder()
                     .withTitle("Minecraft " + getServerType() + " '" + getConfig().getServerTag() + "' shutting down.")
