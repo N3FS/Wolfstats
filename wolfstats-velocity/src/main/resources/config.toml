@@ -14,7 +14,7 @@ server-name = "proxy"
 url = "localhost"
 
 # The port of the running DogStatsD instance. (Default: 8125)
-port = "8125"
+port = 8125
 
 [metrics]
 # The interval between sending metrics reports to DataDog, in seconds. (Default: 20 seconds)
