@@ -1,3 +1,7 @@
+plugins {
+    id 'net.kyori.blossom' version '1.1.0'
+}
+
 repositories {
     maven {
         name = 'sonatype'
@@ -19,15 +23,13 @@ dependencies {
     annotationProcessor 'com.velocitypowered:velocity-api:1.0.8-SNAPSHOT'
 }
 
-processResources {
-    from(sourceSets.main.resources.srcDirs) {
-        expand 'version': project.version
-    }
-}
-
 shadowJar {
     relocate 'com.timgroup.statsd', 'uk.co.n3fs.mc.wolfstats.libs.dogstatsd'
     relocate 'org.objectweb.asm', 'uk.co.n3fs.mc.wolfstats.libs.asm'
     relocate 'jnr', 'uk.co.n3fs.mc.wolfstats.libs.jnr'
     relocate 'com.kenai', 'uk.co.n3fs.mc.wolfstats.libs.kenai'
+}
+
+blossom {
+    replaceToken '@version@', project.pluginVersion
 }

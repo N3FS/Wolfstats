@@ -1,5 +1,5 @@
 name: Wolfstats
-version: @version@
+version: ${version}
 main: uk.co.n3fs.mc.wolfstats.paper.PaperBootstrap
 api-version: "1.13"
 authors: [md678685]
