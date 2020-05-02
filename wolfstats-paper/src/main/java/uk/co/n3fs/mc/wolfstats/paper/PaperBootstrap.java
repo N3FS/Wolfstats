@@ -43,6 +43,8 @@ public final class PaperBootstrap extends JavaPlugin implements Bootstrap {
         scheduler = new PaperScheduler(this);
         sampler = new PaperTickSampler();
         plugin = new WolfstatsPlugin(this);
+
+        getServer().getPluginManager().registerEvents(sampler, this);
     }
 
     @Override
