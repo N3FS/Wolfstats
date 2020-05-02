@@ -25,5 +25,6 @@ subprojects {
 
     dependencies {
         implementation "com.datadoghq:java-dogstatsd-client:2.9.0"
+        compileOnly "org.slf4j:slf4j-api:1.7.25"
     }
 }

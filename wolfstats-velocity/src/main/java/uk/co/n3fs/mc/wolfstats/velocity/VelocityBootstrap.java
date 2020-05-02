@@ -30,6 +30,7 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import org.slf4j.Logger;
 import uk.co.n3fs.mc.wolfstats.WolfstatsPlugin;
 import uk.co.n3fs.mc.wolfstats.platform.*;
 
@@ -52,11 +53,13 @@ public final class VelocityBootstrap implements Bootstrap {
     private TomlConfig config;
     private WolfstatsPlugin plugin;
     private VelocityScheduler scheduler;
+    private final Logger logger;
 
     @Inject
-    public VelocityBootstrap(ProxyServer proxy, @DataDirectory Path pluginDir) {
+    public VelocityBootstrap(ProxyServer proxy, @DataDirectory Path pluginDir, Logger logger) {
         this.proxy = proxy;
         this.pluginDir = pluginDir;
+        this.logger = logger;
 
         server = new VelocityServer(proxy);
         config = new TomlConfig(pluginDir);
@@ -104,6 +107,11 @@ public final class VelocityBootstrap implements Bootstrap {
     @Override
     public Optional<TickSampler> getTickSampler() {
         return Optional.empty();
+    }
+
+    @Override
+    public Logger getPlatformLogger() {
+        return logger;
     }
 
 }

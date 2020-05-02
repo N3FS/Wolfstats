@@ -23,6 +23,7 @@
 package uk.co.n3fs.mc.wolfstats.paper;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.slf4j.Logger;
 import uk.co.n3fs.mc.wolfstats.WolfstatsPlugin;
 import uk.co.n3fs.mc.wolfstats.platform.*;
 
@@ -73,4 +74,10 @@ public final class PaperBootstrap extends JavaPlugin implements Bootstrap {
     public Optional<TickSampler> getTickSampler() {
         return Optional.of(sampler);
     }
+
+    @Override
+    public Logger getPlatformLogger() {
+        return getSLF4JLogger();
+    }
+
 }

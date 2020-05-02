@@ -22,6 +22,8 @@
 
 package uk.co.n3fs.mc.wolfstats.platform;
 
+import org.slf4j.Logger;
+
 import java.util.Optional;
 
 public interface Bootstrap {
@@ -33,5 +35,7 @@ public interface Bootstrap {
     Scheduler getSchedulerWrapper();
 
     Optional<TickSampler> getTickSampler();
+
+    Logger getPlatformLogger();
 
 }

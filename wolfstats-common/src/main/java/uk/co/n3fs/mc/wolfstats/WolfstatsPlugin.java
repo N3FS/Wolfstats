@@ -25,6 +25,7 @@ package uk.co.n3fs.mc.wolfstats;
 import com.timgroup.statsd.Event;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
+import org.slf4j.Logger;
 import uk.co.n3fs.mc.wolfstats.platform.*;
 
 import java.util.Optional;
@@ -58,6 +59,11 @@ public class WolfstatsPlugin {
     }
 
     public void enable() {
+        if (!getConfig().enabled()) {
+            getLogger().warn("Wolfstats is disabled in the config. Edit the config file to enable the plugin.");
+            return;
+        }
+
         getScheduler().scheduleRepeatingTask(STATS_TASK_ID, statsTask::run, getConfig().getReportingInterval());
 
         if (getConfig().sendStartEvent()) {
@@ -107,5 +113,9 @@ public class WolfstatsPlugin {
 
     public StatsDClient getStatsd() {
         return statsd;
+    }
+
+    public Logger getLogger() {
+        return bootstrap.getPlatformLogger();
     }
 }
