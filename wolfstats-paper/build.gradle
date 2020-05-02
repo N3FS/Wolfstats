@@ -21,7 +21,16 @@ processResources {
 }
 
 shadowJar {
+    relocate 'com.timgroup.statsd', 'uk.co.n3fs.mc.wolfstats.libs.dogstatsd'
+    relocate 'org.objectweb.asm.util', 'uk.co.n3fs.mc.wolfstats.libs.asm.util'
+    relocate 'jnr', 'uk.co.n3fs.mc.wolfstats.libs.jnr'
+    relocate 'com.kenai', 'uk.co.n3fs.mc.wolfstats.libs.kenai'
+
+    // ASM is provided by Paper, except for asm-util
     dependencies {
-        include(dependency(':wolfstats-common'))
+        exclude(dependency('org.ow2.asm:asm'))
+        exclude(dependency('org.ow2.asm:asm-analysis'))
+        exclude(dependency('org.ow2.asm:asm-commons'))
+        exclude(dependency('org.ow2.asm:asm-tree'))
     }
 }
